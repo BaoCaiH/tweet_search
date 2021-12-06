@@ -13,6 +13,9 @@ from twitter_plugin.utilities.patterns import patterns
 
 
 class TwitterSearchToLocalOperator(BaseOperator, SkipMixin):
+    """This operator will retrieve all the tweets fit with the specified
+    query or the supporting parameters, i.e. include keywords, or exclude them.
+    """
     
     template_fields = (
         "directory",
@@ -50,6 +53,58 @@ class TwitterSearchToLocalOperator(BaseOperator, SkipMixin):
         *args,
         **kwargs,
     ):
+        """Initialise the operator.
+
+        Args:
+            directory: Where to save the tweets file.
+            start_time: Start timestamp in ISO 8601 format.
+                Pay attention to the access level, dev level only
+                have 7 days look back window. Academic have full access.
+            query: Tweets search endpoint complied query.
+                Visit this url below for more guides on building a query,
+                or just use the supporting params below instead.
+                https://developer.twitter.com/en/docs/twitter-api/tweets/search/integrate/build-a-query#limits
+                This parameter will be ignore if queries is not None.
+            queries: In case the user want to list multiple queries at once.
+                If this is not None, query parameter will be disregarded.
+                Internally, the query provided or queries built from parameters
+                will be saved into this attribute during querying from the endpoint.
+            include: keywords (or hashtags) to include in the query.
+            exclude: keywords (or hashtags) to exclude in the query.
+            language: narrow down on target language,
+                only one can be provided at a time.
+            country: narrow down on target country,
+                only one can be provided at a time.
+            end_time: End timestamp in ISO 8601 format.
+                It has to be at least 10 seconds before the request time,
+                i.e. datetime.datetime.now() - datetime.timedelta(seconds=10)
+            endpoint: 'recent' for dev access, 'all' for academic access.
+                The hook will snap back to 'recent' on any strange input.
+            expansions: Expansion allows this operator to get the full version of
+                retweets and replies, which are usually truncated. At the default,
+                it will only request for the expansion based on the referenced tweet id,
+                which is sufficient to get the full text. Generally, it's a good idea
+                to not change this parameters, but for power users, refer to this url
+                below for more information on how to use expansion,
+                https://developer.twitter.com/en/docs/twitter-api/tweets/search/api-reference/get-tweets-search-recent#cURL
+            tweet_fields: Which tweet fields to request.
+                Default to minimum required information. Refer to the same url
+                on expansions to find the full list of fields.
+            user_fields: Which user fields to request.
+                Default to minimum required information. Refer to the same url
+                on expansions to find the full list of fields.
+            max_results: Max results return on each page (for pagination),
+                ranging from 10 to 100. Requests will fail outside this range.
+            access_limit: Limit on query length, in characters, specific to access right.
+                For dev access, it's 512 characters, 1024 for academic. For safety, a 20%
+                buffer was already implemented on the limit, i.e. the query length would
+                only be roughly 410 characters for dev access. User can limit this further
+                to make sure all the query would pass. Pay attention to the API call limit.
+            twitter_conn_id: Name of the connection in Airflow
+            filename: Name of the out file(s). If not specified, it will create subdirectories
+                with the following pattern:
+                {directory}/{twitter_conn_id}/search_{endpoint}/{start_time}/_{subquery}_{pagination}.json
+        """
         super().__init__(*args, **kwargs)
         self.directory = directory
         self.endpoint = endpoint
