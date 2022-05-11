@@ -15,6 +15,16 @@ For this to work you need a few things:
 - Run `pip install -r requirements.txt`
 - An `.env` file at the script location with 1 variable inside, `TOKEN`. This is your API token
 - A data folder to house the output. This can be any folder, but you need a `backup` folder living inside it
+- Additionally, you can also provide a keywordd file in a predefined location instead of providing them as a string
+
+Run the script, example:
+```sh
+python tweet_search_to_same_file.py -s 2017-01-01 -e 2017-02-01 -kwf kw.txt -d data/ -l fi -g FI
+```
+For more details, run:
+```sh
+python tweet_search_to_same_file.py -h
+```
 
 ## Run Airflow <a name="run-airflow"></a>
 ### 0. Install airflow

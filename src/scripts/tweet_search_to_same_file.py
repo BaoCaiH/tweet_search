@@ -135,7 +135,7 @@ if __name__ == "__main__":
         "--data-dir",
         required=True,
         type=str,
-        help="Directory to save data, defaults to script directory",
+        help="Directory to save data, must have trailing slash",
         dest="data_dir"
     )
     parser.add_argument(
