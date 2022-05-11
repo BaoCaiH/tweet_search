@@ -1,5 +1,22 @@
 # tweet_search
 
+## Table of contents
+1. [Introduction](#introduction)
+2. [Run script](#run-script)
+3. [Run Airflow](#run-airflow)
+
+## Introduction <a name="introduction"></a>
+This repo was a result of a thesis which utilised Tweets for analysis. I thought this would be valuable for anyone who needs to use it to scrape tweets from Twitter, given you have access to the API of course.
+
+## Run script <a name="run-script"></a>
+The script is the easier way to get tweets since installing Airflow is not always an option. While this repo started out with Airflow in mind, running script is more recommended. Unless you want to see how badly I made the Airflow Operator of course.
+
+For this to work you need a few things:
+- Run `pip install -r requirements.txt`
+- An `.env` file at the script location with 1 variable inside, `TOKEN`. This is your API token
+- A data folder to house the output. This can be any folder, but you need a `backup` folder living inside it
+
+## Run Airflow <a name="run-airflow"></a>
 ### 0. Install airflow
 Install airflow by running `bash install.sh`
 
@@ -66,7 +83,7 @@ Next, navigate to the connection panel in Admin
 Add new connection
 ![add-new](images/add-new-conn.png)
 
-Ask Bao Cai for the token to put in to the password field though
+Put the API access token to the password field
 ![add-twitter](images/add-twitter.png)
 
 ### 4. Let's run the dag
