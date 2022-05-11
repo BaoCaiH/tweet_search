@@ -10,7 +10,7 @@ from datetime import timedelta as tdt
 from typing import Any, Dict, List, Tuple
 
 import requests
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 
 
 # Functions
@@ -182,7 +182,7 @@ if __name__ == "__main__":
         dest="expansions"
     )
     args = parser.parse_args()
-    load_dotenv()
+    load_dotenv(find_dotenv())
 
     DIR = args.data_dir
     DIR_BACKUP = f"{DIR}backup/"
