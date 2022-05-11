@@ -182,7 +182,7 @@ if __name__ == "__main__":
         dest="expansions"
     )
     args = parser.parse_args()
-    load_dotenv(find_dotenv())
+    load_dotenv(".env")
 
     DIR = args.data_dir
     DIR_BACKUP = f"{DIR}backup/"
